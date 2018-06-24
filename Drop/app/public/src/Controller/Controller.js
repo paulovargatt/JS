@@ -3,7 +3,6 @@ class DropBoxController {
         this.currentFolder = ['vargatt'];
 
         this.nav = document.querySelector('#browse-location');
-
         this.btnSendFileEl = document.querySelector("#btn-send-file");
         this.inputFilesEl = document.querySelector("#files");
         this.snackModalEl = document.querySelector("#react-snackbar-root");
