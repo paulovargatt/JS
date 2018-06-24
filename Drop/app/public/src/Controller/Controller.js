@@ -32,7 +32,7 @@ class DropBoxController {
             authDomain: "mybox-b03fb.firebaseapp.com",
             databaseURL: "https://mybox-b03fb.firebaseio.com",
             projectId: "mybox-b03fb",
-            storageBucket: "",
+            storageBucket: "gs://mybox-b03fb.appspot.com",
             messagingSenderId: "443000865655"
         };
         firebase.initializeApp(config);
@@ -84,11 +84,15 @@ class DropBoxController {
             this.uploadTask(event.target.files)
                 .then(response => {
                     response.forEach(resp => {
-                        console.log(resp.files["input-file"], "enviou ?");
-
+                        console.log(resp);
                         this.getFirebaseRef()
                             .push()
-                            .set(resp.files["input-file"]);
+                            .set({
+                                name: resp.name,
+                                type: resp.contentType,
+                                path: 'https://firebasestorage.googleapis.com/v0/b/mybox-b03fb.appspot.com/o/'+resp.fullPath,
+                                size: resp.size
+                            });
                     });
 
                     this.uploadComplete();
@@ -130,12 +134,15 @@ class DropBoxController {
         this.getSelection().forEach(li => {
             let file = JSON.parse(li.dataset.file);
             let key = li.dataset.key;
-            console.log(file);
-            let formData = new FormData();
-            formData.append('path', file.path);
-            formData.append('key', key);
-
-            promises.push(this.ajax('/file', 'DELETE',formData));
+            
+            promises.push(new Promise((resolve, reject) => {
+                let fileRef = firebase.storage().ref(this.currentFolder.join('/')).child(file.name);
+                fileRef.delete().then(() => {
+                   resolve({
+                       fields: {key}
+                   })
+                });
+            }));
         });
         return Promise.all(promises)
     }
@@ -186,15 +193,30 @@ class DropBoxController {
         let promises = [];
         //Spreed for array
         [...files].forEach(file => {
-            let formData = new FormData();
-            formData.append("input-file", file);
+            promises.push(new Promise((resolve, reject) => {
+                let fileRef = firebase.storage().ref(this.currentFolder.join('/')).child(file.name);
 
-            promises.push(this.ajax('/upload','POST', formData, ()=>{
-                        this.uploadProgress(event,file);
-                    }, () => {
-                        this.startUploadTime = Date.now();
-                    }));
-            });
+                let task = fileRef.put(file);
+                console.log(task);
+                task.on('state_changed', snapshot => {
+                    this.uploadProgress({
+                        loaded: snapshot.bytesTransferred,
+                        total: snapshot.totalBytes
+                    },file);
+
+                }, error => {
+                    console.log(error);
+                    reject(error);
+
+                }, () => {
+                    fileRef.getMetadata().then(metadata => {
+                        resolve(metadata)
+                    }).catch(err => {
+                       reject(err)
+                    });
+                });
+            }));
+        });
 
         return Promise.all(promises);
     }
