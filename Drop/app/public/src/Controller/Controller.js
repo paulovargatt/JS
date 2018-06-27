@@ -134,7 +134,7 @@ class DropBoxController {
         this.getSelection().forEach(li => {
             let file = JSON.parse(li.dataset.file);
             let key = li.dataset.key;
-            
+
             promises.push(new Promise((resolve, reject) => {
                 let fileRef = firebase.storage().ref(this.currentFolder.join('/')).child(file.name);
                 fileRef.delete().then(() => {
