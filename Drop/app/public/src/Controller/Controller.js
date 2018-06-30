@@ -237,7 +237,7 @@ class DropBoxController {
     formatTimeToHuman(duration) {
         let seconds = parseInt((duration / 1000) % 60);
         let minutes = parseInt((duration / (1000 * 60)) % 60);
-        let hours = parseInt(((duration / 1000) * 60 * 60) % 24);
+        let hours = parseInt((duration / (1000 * 60 * 60)) % 24);
         if (hours > 0) {
             return `${hours} Horas, ${minutes} minutos e ${seconds} segundos`;
         }

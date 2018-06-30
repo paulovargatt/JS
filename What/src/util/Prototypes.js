@@ -2,7 +2,7 @@ class Prototypes {
 
     static addProto(){
         Element.prototype.hide = function () {
-            this.style.display = 'none';
+            this.style.display = "none";
             return this;
         };
 
@@ -26,7 +26,7 @@ class Prototypes {
 
         Element.prototype.css = function (styles) {
             for (let name in styles){
-                this.style['name'] = styles[name]
+                this.style[name] = styles[name]
             }
             return this;
 
