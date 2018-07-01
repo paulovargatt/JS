@@ -1,4 +1,4 @@
-class MicrophoneController{
+export class MicrophoneController{
 
     static eventsMicrophone(scope){
         scope.el.btnSendMicrophone.on('click', e => {

@@ -1,4 +1,4 @@
-class Prototypes {
+export class Prototypes {
 
     static addProto(){
         Element.prototype.hide = function () {

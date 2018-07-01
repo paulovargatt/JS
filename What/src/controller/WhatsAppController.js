@@ -1,4 +1,9 @@
-class WhatsAppController {
+import {Format} from './../util/Format';
+import {Prototypes} from  './../util/Prototypes';
+import {MenuController} from './MenuController'
+import {MicrophoneController} from './MicrophoneController'
+
+export class WhatsAppController {
 
     constructor(){
 

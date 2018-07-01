@@ -1,4 +1,6 @@
-class MenuController {
+import {CameraController} from './CameraController'
+
+export class MenuController {
 
     static EventsMenu(scope){
         scope.el.btnAttach.on('click', e => {
@@ -21,7 +23,6 @@ class MenuController {
 
         scope.el.btnAttachCamera.on('click', e=> {
             this.closeAllMainPanel(scope);
-
             scope.el.panelCamera.addClass('open');
             scope.el.panelCamera.css({
                 'height':'calc(100% - 266px)'
@@ -33,6 +34,7 @@ class MenuController {
         scope.el.btnClosePanelCamera.on('click', e => {
             scope.el.panelCamera.removeClass('open');
             scope.el.panelMessagesContainer.show();
+            this._camera.stop()
         });
 
         scope.el.btnAttachDocument.on('click', e=> {
