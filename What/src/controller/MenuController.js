@@ -1,4 +1,5 @@
 import {CameraController} from './CameraController'
+import {DocumentPreviewController} from './DocumentPreviewController'
 
 export class MenuController {
 
@@ -37,11 +38,36 @@ export class MenuController {
             this._camera.stop()
         });
 
+        scope.el.btnTakePicture.on('click', e => {
+            scope._camera.takePicture();
+            console.log('take')
+        });
+
         scope.el.btnAttachDocument.on('click', e=> {
             this.closeAllMainPanel(scope);
             scope.el.panelDocumentPreview.addClass('open');
             // scope.el.
+
+            scope.el.inputDocument.click();
         });
+
+        scope.el.inputDocument.on('change', e => {
+           if(scope.el.inputDocument.files.length){
+               let file = scope.el.inputDocument.files[0];
+               console.log(file)
+               scope._documentPreviewController = new DocumentPreviewController(file);
+               scope._documentPreviewController.getPreviewData().then(data => {
+                   scope.el.imgPanelDocumentPreview.src = data;
+                   scope.el.imagePanelDocumentPreview.show();
+                   scope.el.filePanelDocumentPreview.hide();
+
+
+               }).catch(err => {
+                   console.log(err)
+               })
+           }
+        });
+
         scope.el.btnClosePanelDocumentPreview.on('click', e => {
             this.closeAllMainPanel(scope);
             scope.el.panelMessagesContainer.show();

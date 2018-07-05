@@ -19,4 +19,9 @@ export class CameraController {
             track.stop()
         });
     }
+
+    takePicture(mimeType = 'image/png'){
+        let canvas = document.createElement('canvas');
+        canvas.setAttribute()
+    }
 }
