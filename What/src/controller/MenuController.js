@@ -57,12 +57,39 @@ export class MenuController {
                console.log(file)
                scope._documentPreviewController = new DocumentPreviewController(file);
                scope._documentPreviewController.getPreviewData().then(data => {
-                   scope.el.imgPanelDocumentPreview.src = data;
+                   console.log(data)
+                   scope.el.imgPanelDocumentPreview.src = data.src;
+                   scope.el.infoPanelDocumentPreview.innerHTML = data.info;
+
                    scope.el.imagePanelDocumentPreview.show();
                    scope.el.filePanelDocumentPreview.hide();
 
 
                }).catch(err => {
+
+                   switch (file.type){
+                       case 'application/vnd.ms-excel':
+                       case 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
+                           scope.el.iconPanelDocumentPreview.className = 'jcxhw icon-doc-xls';
+                           break;
+                       case 'application/vnd.ms-powerpoint':
+                       case 'application/vnd.openxmlformats-officedocument.presentationml.presentation':
+                           scope.el.iconPanelDocumentPreview.className = 'jcxhw icon-doc-ppt';
+                           break;
+
+                       case 'application/msword':
+                       case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
+                           scope.el.iconPanelDocumentPreview.className = 'jcxhw icon-doc-doc';
+                           break;
+
+                       default:
+                           scope.el.iconPanelDocumentPreview.className = 'jcxhw icon-doc-generic';
+                        break;
+                   }
+                   scope.el.filenamePanelDocumentPreview.innerHTML = file.name
+                   scope.el.imagePanelDocumentPreview.hide();
+                   scope.el.filePanelDocumentPreview.show();
+
                    console.log(err)
                })
            }

@@ -11,6 +11,7 @@
   "author": "Paulo Vargatt <pvargatt@gmail.com> (https://vargatt.com/)",
   "license": "MIT",
   "dependencies": {
+    "firebase": "^5.2.0",
     "webpack": "^3.1.0",
     "webpack-dev-server": "^2.5.1"
   }

@@ -14,7 +14,10 @@ export class DocumentPreviewController {
 
                     let reader = new FileReader();
                     reader.onload = e => {
-                        s(reader.result)
+                        s({
+                            src: reader.result,
+                            info: this._file.name
+                        })
                     }
 
                     reader.onerror =  e => {

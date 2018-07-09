@@ -1,4 +1,9 @@
-export class MicrophoneController{
+import {ClassEvent} from "../util/ClassEvent";
+
+export class MicrophoneController extends ClassEvent{
+    constructor(){
+        super();
+    }
 
     static eventsMicrophone(scope){
         scope.el.btnSendMicrophone.on('click', e => {

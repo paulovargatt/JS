@@ -16062,7 +16062,7 @@ html[dir=rtl] ._2ICcy:after{
      background-image: url('../img/81e827fdf825193402a93ff78c0c13e8.webp');
 }
  .panel-main {
-     height: 10%;
+     height: 81vh;
 }
  .panel-down {
      transform: translateY(350px);
